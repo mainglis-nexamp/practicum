@@ -6,17 +6,10 @@ from .wellness import Wellness
 
 class Hero:
 
-    _partner: Optional[Partner] = None
-
-    def __init__(self, name: str, interests: List[str]):
+    def __init__(self, name: str, interests: List[str], partner: Optional[Partner] = Partner()):
         self.name = name
         self.interests = interests
-
-    @property
-    def partner(self):
-        if not self._partner:
-            self._partner = Partner()
-        return self._partner
+        self.partner = partner
 
     def get_wellness(self) -> Literal[Wellness.JUST_FINE, Wellness.UNHEALTHY]:
         """See how well the Hero is doing. The Hero will first check in
