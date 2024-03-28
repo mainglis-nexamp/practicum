@@ -1,5 +1,6 @@
 from .hero import Hero
 from .wellness import Wellness
+from .partner import Partner
 
 
 """
@@ -20,10 +21,38 @@ irresponsible.
 """
 
 
+class MockPartnerGetWellness(Partner):
+    def __init__(self, **kwargs):
+        pass
+
+    def __str__(self):
+        return "I'm a get wellness mock."
+
+    def communicate(self):
+        return "Hey, what's up? I'm fast!"
+
+
+class MockPartnerGetLifePlan(Partner):
+    def __init__(self, **kwargs):
+        self.priorities = ["lame", "stuff"]
+
+    def __str__(self):
+        return "I'm a get life plan mock."
+
+
+class MockPartnerShouldFindNewPartner(Partner):
+    def __init__(self, **kwargs):
+        self.priorities = ["curling", "day trading", "hero"]
+
+    def __str__(self):
+        return "I should probably find a new partner but I guess I'm stuck."
+
+
 def test_hero_get_wellness():
     """
     Given:
         - a Hero instance
+        - a mocked Partner instance that has a fast communicate method
 
     When:
         - the get_wellness method is called
@@ -32,7 +61,8 @@ def test_hero_get_wellness():
         - the method should return Wellness.FAIR
     """
     # Given
-    hero = Hero(name="Pat", interests=["doesn't matter"])
+    mock_partner = MockPartnerGetWellness()
+    hero = Hero(name="Pat", interests=["doesn't matter"], partner=mock_partner)
 
     # When
     wellness = hero.get_wellness()
@@ -54,7 +84,8 @@ def test_hero_get_life_plan():
         - the method should return a dictionary with the interests as keys and the value as 1
     """
     # Given
-    hero = Hero(name="Vic", interests=["entrepreneurship", "helping others"])
+    mock_partner = MockPartnerGetLifePlan()
+    hero = Hero(name="Vic", interests=["entrepreneurship", "helping others"], partner=mock_partner)
 
     # When
     life_plan = hero.get_life_plan()
@@ -76,7 +107,8 @@ def test_hero_should_find_new_partner():
         - the method should return False
     """
     # Given
-    hero = Hero(name="Tracy", interests=["vaping", "Jean-Claude Van Damme"])
+    mock_partner = MockPartnerShouldFindNewPartner()
+    hero = Hero(name="Tracy", interests=["vaping", "Jean-Claude Van Damme"], partner=mock_partner)
 
     # When
     should_find_new_partner = hero.should_find_new_partner()
